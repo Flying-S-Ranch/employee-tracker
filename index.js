@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { listenerCount } = require('process');
+const db = require('./server')
 
 const questions = [
     {
@@ -10,9 +10,14 @@ const questions = [
     }
 ]
 
-const chooseOption = (response) =>
-console.log(response)
+const displayChoice = (response) => {
+    if(response === 'view all departments') {
+    db.query('SELECT * FROM department', function (err, results){
+        console.log(results);
+    })
+    }
+}
 
 inquirer
   .prompt(questions)
-  .then((chooseOption));
+  .then((displayChoice));
