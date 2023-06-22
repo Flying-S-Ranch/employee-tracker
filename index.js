@@ -21,6 +21,21 @@ const questions = [
         type: 'input',
         message: 'What department would you like to add?',
         name: 'newDept'
+    },
+    {
+        type: 'input',
+        message: 'What is the new role?',
+        name: 'roleName'
+    },
+    {
+        type: 'input',
+        message: 'What is the salary for the role?',
+        name: 'roleSalary'
+    },
+    {
+        type: 'input',
+        message: 'This role belongs in which department?',
+        name: 'roleDept'
     }
 ]
 
@@ -56,6 +71,17 @@ const displayChoice = (response) => {
         inquirer
           .prompt(questions[1])
           .then(addDept)
+    } else if (answerString === '{"main":"add a role"}') {
+        function addRole({roleName, roleSalary, roleDept}) {
+            db.query(`INSERT INTO role (name, salary, department)
+            VALUES("${roleName}","${roleSalary}","${roleDept}")`)
+            db.query('SELECT * FROM role', function (err, results) {
+                console.table(results)
+            })
+        }
+        inquirer
+          .prompt(questions[2], questions[3], questions[4])
+          .then(addRole())
     }
     
 }
