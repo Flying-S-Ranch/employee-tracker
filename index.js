@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
+
+
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -20,12 +22,23 @@ const questions = [
     }
 ]
 
+
 const displayChoice = (response) => {
-    if(response = 'view all departments') {
-    db.query('SELECT * FROM department', function (err, results) {
-        console.table(results)
-    })
+    let answerString = JSON.stringify(response)
+    if(answerString === '{"main":"view all departments"}') {
+        db.query('SELECT * FROM department', function (err, results) {
+            console.table(results)
+        })
+    } else if (answerString === '{"main":"view all roles"}') {
+        db.query('SELECT * FROM role', function (err, results) {
+            console.table(results)
+        } )
+    } else if (answerString=== '{"main":"view all employees"}') {
+        db.query('SELECT * FROM employee', function (err, results) {
+            console.table(results)
+        })
     }
+    
 }
 
 inquirer
