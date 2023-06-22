@@ -1,5 +1,15 @@
 const inquirer = require('inquirer');
-const db = require('./server')
+const mysql = require('mysql2');
+
+const db = mysql.createConnection(
+    {
+        host: 'localhost',
+        user: 'root',
+        password: '4frodo',
+        database: 'business_db'
+    },
+    console.log(`Connected to the business_db database `)
+);
 
 const questions = [
     {
@@ -11,9 +21,9 @@ const questions = [
 ]
 
 const displayChoice = (response) => {
-    if(response === 'view all departments') {
-    db.query('SELECT * FROM department', function (err, results){
-        console.log(results);
+    if(response = 'view all departments') {
+    db.query('SELECT * FROM department', function (err, results) {
+        console.table(results)
     })
     }
 }
